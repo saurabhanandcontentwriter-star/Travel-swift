@@ -10,6 +10,7 @@ import BookingHistoryPage from './pages/BookingHistoryPage';
 import BookingConfirmationPage from './pages/BookingConfirmationPage';
 import BookingTicketPage from './pages/BookingTicketPage';
 import HomePage from './pages/HomePage';
+import BottomNavBar from './components/BottomNavBar';
 import { UserIcon } from './components/icons/Icons';
 import type { User, Booking, CabResult, BusResult, ServiceType } from './types';
 
@@ -65,6 +66,7 @@ const App: React.FC = () => {
 
   const navigate = (page: Page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0);
   };
   
   const handleLogin = (user: User) => {
@@ -169,7 +171,7 @@ const App: React.FC = () => {
       case 'verification-success':
         return <VerificationSuccessPage navigate={navigate} />;
       case 'profile':
-        return currentUser && <ProfilePage user={currentUser} onLogout={handleLogout} navigate={navigate} onUpdateProfilePic={handleUpdateProfilePic} onUpdateProfile={handleUpdateProfile} />;
+        return currentUser && <ProfilePage user={currentUser} onLogout={handleLogout} onUpdateProfilePic={handleUpdateProfilePic} onUpdateProfile={handleUpdateProfile} />;
       case 'bookings':
         return <BookingHistoryPage bookings={bookingHistory} onRebook={handleRebook} navigate={navigate} />;
       case 'ticket':
@@ -190,30 +192,17 @@ const App: React.FC = () => {
         return <HomePage 
                   currentUser={currentUser} 
                   onNavigateToBooking={handleNavigateToBooking}
-                  navigate={navigate}
                 />;
     }
   };
+  
+  const pagesWithNavBar: Page[] = ['home', 'booking', 'bookings', 'profile', 'login', 'signup'];
 
   return (
     <div className="app">
       <header className="header">
         <h1 onClick={() => navigate('home')} style={{ cursor: 'pointer' }}>TravelSwift</h1>
         <div className="header-actions">
-          {currentUser ? (
-            <button onClick={() => navigate('profile')} className="profile-btn" aria-label="View Profile">
-              {currentUser.profilePic ? (
-                <img src={currentUser.profilePic} alt="User profile" className="header-profile-pic" />
-              ) : (
-                <UserIcon />
-              )}
-            </button>
-          ) : (
-            <div className="auth-buttons">
-              <button onClick={() => navigate('login')} className="auth-btn login-btn">Login</button>
-              <button onClick={() => navigate('signup')} className="auth-btn signup-btn">Sign Up</button>
-            </div>
-          )}
           <ThemeSwitcher theme={theme} toggleTheme={toggleTheme} />
         </div>
       </header>
@@ -223,13 +212,18 @@ const App: React.FC = () => {
       {bookingToConfirm && currentUser && (
         <BookingConfirmationPage 
             user={currentUser}
+            // FIX: Add missing props to BookingConfirmationPage
             bookingDetails={bookingToConfirm}
             onConfirm={handleConfirmBooking}
             onCancel={() => setBookingToConfirm(null)}
         />
       )}
+      {pagesWithNavBar.includes(currentPage) && (
+        <BottomNavBar currentPage={currentPage} navigate={navigate} currentUser={currentUser} />
+      )}
     </div>
   );
 };
 
+// FIX: Add default export to fix import error in index.tsx
 export default App;

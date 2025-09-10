@@ -1,14 +1,13 @@
 import React from 'react';
 import type { User, ServiceType } from '../types';
-import { LargeCabIcon, LargeBusIcon, HistoryIcon } from '../components/icons/Icons';
+import { LargeCabIcon, LargeBusIcon } from '../components/icons/Icons';
 
 interface HomePageProps {
   currentUser: User | null;
   onNavigateToBooking: (serviceType: ServiceType) => void;
-  navigate: (page: 'bookings') => void;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ currentUser, onNavigateToBooking, navigate }) => {
+const HomePage: React.FC<HomePageProps> = ({ currentUser, onNavigateToBooking }) => {
   const welcomeMessage = currentUser ? `Where to next, ${currentUser.name.split(' ')[0]}?` : 'Your Journey Starts Here';
   const subMessage = 'Book cabs and buses with ease across Bihar.';
 
@@ -39,15 +38,6 @@ const HomePage: React.FC<HomePageProps> = ({ currentUser, onNavigateToBooking, n
           </div>
         </button>
       </div>
-
-      {currentUser && (
-        <div className="home-secondary-actions">
-          <button onClick={() => navigate('bookings')} className="action-btn">
-            <HistoryIcon />
-            View My Bookings
-          </button>
-        </div>
-      )}
     </div>
   );
 };
