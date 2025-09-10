@@ -6,6 +6,8 @@ import BiharMap from './icons/BiharMap';
 interface BookingInterfaceProps {
     initialBookingData?: Booking | null;
     clearInitialBookingData?: () => void;
+    initialServiceType?: ServiceType | null;
+    clearInitialServiceType?: () => void;
     onBookNow: (ride: CabResult | BusResult) => void;
     currentUser: User | null;
     showSuccessMessage?: boolean;
@@ -15,6 +17,8 @@ interface BookingInterfaceProps {
 const BookingInterface: React.FC<BookingInterfaceProps> = ({ 
     initialBookingData, 
     clearInitialBookingData, 
+    initialServiceType,
+    clearInitialServiceType,
     onBookNow, 
     currentUser,
     showSuccessMessage,
@@ -42,8 +46,12 @@ const BookingInterface: React.FC<BookingInterfaceProps> = ({
       setError(null);
       document.querySelector('.app')?.scrollIntoView({ behavior: 'smooth' });
       clearInitialBookingData();
+    } else if (initialServiceType && clearInitialServiceType) {
+        setServiceType(initialServiceType);
+        document.querySelector('.app')?.scrollIntoView({ behavior: 'smooth' });
+        clearInitialServiceType();
     }
-  }, [initialBookingData, clearInitialBookingData]);
+  }, [initialBookingData, clearInitialBookingData, initialServiceType, clearInitialServiceType]);
 
   useEffect(() => {
     if (showSuccessMessage && clearSuccessMessage) {

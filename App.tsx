@@ -9,14 +9,15 @@ import VerificationSuccessPage from './pages/VerificationSuccessPage';
 import BookingHistoryPage from './pages/BookingHistoryPage';
 import BookingConfirmationPage from './pages/BookingConfirmationPage';
 import BookingTicketPage from './pages/BookingTicketPage';
+import HomePage from './pages/HomePage';
 import { UserIcon } from './components/icons/Icons';
-import type { User, Booking, CabResult, BusResult } from './types';
+import type { User, Booking, CabResult, BusResult, ServiceType } from './types';
 
-type Page = 'booking' | 'login' | 'signup' | 'profile' | 'otp' | 'verification-success' | 'bookings' | 'ticket';
+type Page = 'home' | 'booking' | 'login' | 'signup' | 'profile' | 'otp' | 'verification-success' | 'bookings' | 'ticket';
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
-  const [currentPage, setCurrentPage] = useState<Page>('booking');
+  const [currentPage, setCurrentPage] = useState<Page>('home');
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [pendingUser, setPendingUser] = useState<User | null>(null);
   const [bookingHistory, setBookingHistory] = useState<Booking[]>([]);
@@ -24,6 +25,7 @@ const App: React.FC = () => {
   const [bookingToConfirm, setBookingToConfirm] = useState<CabResult | BusResult | null>(null);
   const [lastBooking, setLastBooking] = useState<Booking | null>(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [initialServiceType, setInitialServiceType] = useState<ServiceType | null>(null);
 
 
   const getMockBookings = (): Booking[] => {
@@ -69,7 +71,7 @@ const App: React.FC = () => {
     setCurrentUser(user);
     localStorage.setItem('currentUser', JSON.stringify(user));
     setBookingHistory(getMockBookings());
-    navigate('booking');
+    navigate('home');
   };
 
   const handleProceedToOtp = (user: User) => {
@@ -95,7 +97,7 @@ const App: React.FC = () => {
     setCurrentUser(null);
     setBookingHistory([]);
     localStorage.removeItem('currentUser');
-    navigate('booking');
+    navigate('home');
   };
   
   const handleRebook = (booking: Booking) => {
@@ -151,6 +153,11 @@ const App: React.FC = () => {
     }
   };
 
+  const handleNavigateToBooking = (serviceType: ServiceType) => {
+    setInitialServiceType(serviceType);
+    navigate('booking');
+  };
+
   const renderPage = () => {
     switch (currentPage) {
       case 'login':
@@ -168,14 +175,22 @@ const App: React.FC = () => {
       case 'ticket':
         return lastBooking && currentUser && <BookingTicketPage booking={lastBooking} user={currentUser} navigate={navigate} />;
       case 'booking':
-      default:
         return <BookingInterface 
                   initialBookingData={rebookData} 
                   clearInitialBookingData={() => setRebookData(null)}
+                  initialServiceType={initialServiceType}
+                  clearInitialServiceType={() => setInitialServiceType(null)}
                   onBookNow={handleBookNow}
                   currentUser={currentUser}
                   showSuccessMessage={showSuccessMessage}
                   clearSuccessMessage={() => setShowSuccessMessage(false)}
+                />;
+      case 'home':
+      default:
+        return <HomePage 
+                  currentUser={currentUser} 
+                  onNavigateToBooking={handleNavigateToBooking}
+                  navigate={navigate}
                 />;
     }
   };
@@ -183,7 +198,7 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <header className="header">
-        <h1 onClick={() => navigate('booking')} style={{ cursor: 'pointer' }}>TravelSwift</h1>
+        <h1 onClick={() => navigate('home')} style={{ cursor: 'pointer' }}>TravelSwift</h1>
         <div className="header-actions">
           {currentUser ? (
             <button onClick={() => navigate('profile')} className="profile-btn" aria-label="View Profile">

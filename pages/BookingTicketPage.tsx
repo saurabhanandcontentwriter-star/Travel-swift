@@ -5,7 +5,7 @@ import { CheckCircleIcon, HistoryIcon, QrCodeIcon, DownloadIcon } from '../compo
 interface BookingTicketPageProps {
   booking: Booking;
   user: User;
-  navigate: (page: 'bookings' | 'booking') => void;
+  navigate: (page: 'bookings' | 'home') => void;
 }
 
 const BookingTicketPage: React.FC<BookingTicketPageProps> = ({ booking, user, navigate }) => {
@@ -64,7 +64,7 @@ const BookingTicketPage: React.FC<BookingTicketPageProps> = ({ booking, user, na
                 <DownloadIcon />
                 {downloadStatus}
             </button>
-            <button onClick={() => navigate('booking')} className="form-btn">
+            <button onClick={() => navigate('home')} className="form-btn">
                 Book Another Ride
             </button>
         </div>

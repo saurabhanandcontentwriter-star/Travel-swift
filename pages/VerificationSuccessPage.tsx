@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { CheckCircleIcon } from '../components/icons/Icons';
 
 interface VerificationSuccessPageProps {
-  navigate: (page: 'booking') => void;
+  navigate: (page: 'home') => void;
 }
 
 const VerificationSuccessPage: React.FC<VerificationSuccessPageProps> = ({ navigate }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate('booking');
+      navigate('home');
     }, 2000); // 2-second delay before redirecting
 
     return () => clearTimeout(timer); // Cleanup the timer if the component unmounts

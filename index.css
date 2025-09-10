@@ -1386,6 +1386,92 @@ body {
   animation: pulse-stroke 3s ease-in-out infinite;
 }
 
+/* Home Page Styles */
+.home-page {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.hero-section {
+  text-align: center;
+}
+
+.hero-section h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.hero-section p {
+  font-size: 1.1rem;
+  color: var(--secondary-text);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.home-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.action-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--text-color);
+  font-family: inherit;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px -4px color-mix(in srgb, var(--primary-color) 15%, transparent);
+  border-color: var(--primary-color);
+}
+
+.action-card-icon {
+  background: var(--secondary-bg);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+}
+
+.action-card-text h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.action-card-text p {
+  font-size: 0.9rem;
+  color: var(--secondary-text);
+  line-height: 1.4;
+}
+
+.home-secondary-actions {
+    margin-top: -1rem; /* Adjust spacing */
+    display: flex;
+    justify-content: center;
+}
+
+.home-secondary-actions .action-btn {
+    width: auto;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
 
 @media (max-width: 640px) {
     body {
@@ -1416,5 +1502,9 @@ body {
     }
     .ticket-actions {
         flex-direction: column;
+    }
+    .home-actions {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
 }
